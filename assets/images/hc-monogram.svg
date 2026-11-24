@@ -1,0 +1,333 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <!-- Metallic Gold Gradients -->
+    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF4D8" />
+      <stop offset="25%" stop-color="#D4AF37" />
+      <stop offset="50%" stop-color="#FBF0B9" />
+      <stop offset="75%" stop-color="#AA7A1E" />
+      <stop offset="100%" stop-color="#E5C158" />
+    </linearGradient>
+
+    <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFEAA7" />
+      <stop offset="30%" stop-color="#BF9035" />
+      <stop offset="60%" stop-color="#FFF3C4" />
+      <stop offset="90%" stop-color="#8C6212" />
+      <stop offset="100%" stop-color="#D4AF37" />
+    </linearGradient>
+
+    <radialGradient id="goldRadial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF8E1" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#D4AF37" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#8C6212" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="shimmerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.2" />
+      <animate attributeName="x1" from="-100%" to="200%" dur="3.5s" repeatCount="indefinite" />
+      <animate attributeName="x2" from="0%" to="300%" dur="3.5s" repeatCount="indefinite" />
+    </linearGradient>
+
+    <!-- Deep Red Rose Gradients -->
+    <radialGradient id="roseDark" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#B2182B" />
+      <stop offset="50%" stop-color="#7A0B1A" />
+      <stop offset="85%" stop-color="#4A020B" />
+      <stop offset="100%" stop-color="#280004" />
+    </radialGradient>
+
+    <radialGradient id="roseMid" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#E62640" />
+      <stop offset="45%" stop-color="#B2182B" />
+      <stop offset="80%" stop-color="#670613" />
+      <stop offset="100%" stop-color="#3A0108" />
+    </radialGradient>
+
+    <radialGradient id="roseLight" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FF5C77" />
+      <stop offset="35%" stop-color="#DE1F3D" />
+      <stop offset="75%" stop-color="#9E0E22" />
+      <stop offset="100%" stop-color="#54040E" />
+    </radialGradient>
+
+    <!-- Leaf Gradients -->
+    <linearGradient id="goldLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEEA9A" />
+      <stop offset="50%" stop-color="#C59B27" />
+      <stop offset="100%" stop-color="#77510C" />
+    </linearGradient>
+
+    <linearGradient id="sageLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C2D1B2" />
+      <stop offset="50%" stop-color="#7C9473" />
+      <stop offset="100%" stop-color="#4A5E44" />
+    </linearGradient>
+
+    <!-- Shadow filter -->
+    <filter id="royalShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#4a3000" flood-opacity="0.35" />
+    </filter>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    .shimmer-layer { mix-blend-mode: overlay; }
+    .gold-glow { animation: pulseGlow 4s ease-in-out infinite alternate; }
+    @keyframes pulseGlow {
+      0% { opacity: 0.35; transform: scale(0.98); }
+      100% { opacity: 0.75; transform: scale(1.02); }
+    }
+  </style>
+
+  <!-- Background Soft Aura -->
+  <circle cx="300" cy="300" r="230" fill="url(#goldRadial)" class="gold-glow" style="transform-origin: 300px 300px;" />
+
+  <!-- Outer Circular Filigree Frame -->
+  <g id="ornamental-frame" filter="url(#royalShadow)">
+    <!-- Base Rings -->
+    <circle cx="300" cy="300" r="215" fill="none" stroke="url(#goldGrad1)" stroke-width="2" stroke-dasharray="2 4" />
+    <circle cx="300" cy="300" r="208" fill="none" stroke="url(#goldGrad2)" stroke-width="3.5" />
+    <circle cx="300" cy="300" r="198" fill="none" stroke="url(#goldGrad1)" stroke-width="1.5" />
+
+    <!-- 12-Point Filigree Flourishes around Circle -->
+    <g id="filigree-flourishes">
+      <!-- Repeated decorative acanthus & scroll crests around perimeter -->
+      <!-- Top Crest (0 deg) -->
+      <g transform="translate(300, 92)">
+        <path d="M0,0 C-15,-18 -35,-8 -25,12 C-18,6 -8,5 0,16 C8,5 18,6 25,12 C35,-8 15,-18 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-6" r="4.5" fill="url(#goldGrad2)" />
+        <circle cx="-16" cy="3" r="2.5" fill="url(#goldGrad1)" />
+        <circle cx="16" cy="3" r="2.5" fill="url(#goldGrad1)" />
+      </g>
+      <!-- Top Right (45 deg) -->
+      <g transform="translate(447, 153) rotate(45)">
+        <path d="M0,0 C-12,-14 -28,-6 -20,9 C-14,5 -6,4 0,12 C6,4 14,5 20,9 C28,-6 12,-14 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-4" r="3.5" fill="url(#goldGrad2)" />
+      </g>
+      <!-- Right Crest (90 deg) -->
+      <g transform="translate(508, 300) rotate(90)">
+        <path d="M0,0 C-14,-16 -32,-7 -23,10 C-16,5 -7,4 0,14 C7,4 16,5 23,10 C32,-7 14,-16 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-5" r="4" fill="url(#goldGrad2)" />
+      </g>
+      <!-- Bottom Right (135 deg) -->
+      <g transform="translate(447, 447) rotate(135)">
+        <path d="M0,0 C-12,-14 -28,-6 -20,9 C-14,5 -6,4 0,12 C6,4 14,5 20,9 C28,-6 12,-14 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-4" r="3.5" fill="url(#goldGrad2)" />
+      </g>
+      <!-- Top Left (315 deg) -->
+      <g transform="translate(153, 153) rotate(-45)">
+        <path d="M0,0 C-12,-14 -28,-6 -20,9 C-14,5 -6,4 0,12 C6,4 14,5 20,9 C28,-6 12,-14 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-4" r="3.5" fill="url(#goldGrad2)" />
+      </g>
+      <!-- Left Crest (270 deg) -->
+      <g transform="translate(92, 300) rotate(-90)">
+        <path d="M0,0 C-14,-16 -32,-7 -23,10 C-16,5 -7,4 0,14 C7,4 16,5 23,10 C32,-7 14,-16 0,0 Z" fill="url(#goldGrad1)" />
+        <circle cx="0" cy="-5" r="4" fill="url(#goldGrad2)" />
+      </g>
+    </g>
+
+    <!-- Delicate Beaded Ring -->
+    <g fill="url(#goldGrad2)">
+      <!-- Symmetrical Beaded Accents -->
+      <circle cx="300" cy="98" r="3" />
+      <circle cx="352" cy="105" r="2.5" /><circle cx="248" cy="105" r="2.5" />
+      <circle cx="401" cy="125" r="2.5" /><circle cx="199" cy="125" r="2.5" />
+      <circle cx="444" cy="156" r="2.5" /><circle cx="156" cy="156" r="2.5" />
+      <circle cx="476" cy="198" r="2.5" /><circle cx="124" cy="198" r="2.5" />
+      <circle cx="497" cy="247" r="2.5" /><circle cx="103" cy="247" r="2.5" />
+      <circle cx="504" cy="300" r="3" /><circle cx="96" cy="300" r="3" />
+      <circle cx="497" cy="353" r="2.5" /><circle cx="103" cy="353" r="2.5" />
+      <circle cx="476" cy="402" r="2.5" /><circle cx="124" cy="402" r="2.5" />
+      <circle cx="444" cy="444" r="2.5" /><circle cx="156" cy="444" r="2.5" />
+      <circle cx="401" cy="475" r="2.5" /><circle cx="199" cy="475" r="2.5" />
+      <circle cx="352" cy="495" r="2.5" /><circle cx="248" cy="495" r="2.5" />
+      <circle cx="300" cy="502" r="3" />
+    </g>
+  </g>
+
+  <!-- INTERTWINED CALLIGRAPHY: H & C -->
+  <g id="calligraphy-monogram" filter="url(#royalShadow)">
+    
+    <!-- Letter 'H' Calligraphy -->
+    <!-- Left Stem of H with upper swirl & lower base -->
+    <path d="M 190,185 
+             C 180,180 168,188 172,202 
+             C 176,215 194,222 202,238 
+             C 208,250 206,275 206,305 
+             L 206,380 
+             C 206,400 198,410 185,415 
+             C 178,418 178,426 186,427 
+             C 206,428 226,428 244,427 
+             C 252,426 252,418 244,415 
+             C 232,410 224,398 224,380 
+             L 224,300 
+             C 224,250 226,220 220,205 
+             C 214,192 202,189 190,185 Z" 
+          fill="url(#goldGrad1)" stroke="url(#goldGrad2)" stroke-width="1.2" />
+
+    <!-- Right Stem of H -->
+    <path d="M 276,172 
+             C 264,168 254,175 258,188 
+             C 262,202 276,212 284,226 
+             C 290,238 290,265 290,295 
+             L 290,375 
+             C 290,395 282,406 270,410 
+             C 264,413 264,420 270,422 
+             C 288,423 306,423 322,422 
+             C 328,420 328,413 322,410 
+             C 310,406 304,395 304,375 
+             L 304,285 
+             C 304,245 306,210 300,195 
+             C 294,180 285,175 276,172 Z" 
+          fill="url(#goldGrad1)" stroke="url(#goldGrad2)" stroke-width="1.2" />
+
+    <!-- Crossbar and Swash of H weaving through -->
+    <path d="M 210,312 
+             C 235,310 265,304 296,298 
+             C 325,292 355,282 368,272 
+             C 376,265 375,255 365,254 
+             C 350,253 336,266 320,274 
+             C 304,282 280,290 252,298 
+             L 220,306 Z" 
+          fill="url(#goldGrad2)" />
+
+    <!-- Ampersand / Graceful flourish in center -->
+    <path d="M 278,335 
+             C 292,320 310,320 318,334 
+             C 324,345 316,360 302,368 
+             C 288,376 270,374 266,360 
+             C 262,348 270,338 280,332 
+             C 295,322 314,310 326,295 
+             C 334,285 330,278 322,282 
+             C 310,288 296,306 284,324 
+             L 278,335 Z" 
+          fill="url(#goldGrad1)" />
+
+    <!-- Letter 'C' Calligraphy gracefully embracing and intertwining -->
+    <!-- Top terminal / flourish of C -->
+    <path d="M 405,190 
+             C 424,195 440,210 442,226 
+             C 443,238 434,246 424,244 
+             C 414,242 410,232 411,222 
+             C 412,212 405,204 394,200 
+             C 372,192 342,196 318,212 
+             C 288,232 270,270 270,314 
+             C 270,364 294,405 332,422 
+             C 362,435 398,432 426,412 
+             C 436,405 444,408 446,416 
+             C 448,426 438,436 422,446 
+             C 388,468 340,466 302,444 
+             C 256,418 234,368 234,310 
+             C 234,250 262,195 312,170 
+             C 342,155 378,160 405,190 Z" 
+          fill="url(#goldGrad2)" stroke="url(#goldGrad1)" stroke-width="1.5" />
+
+    <!-- Specular Highlight Overlays for 3D Chiseled Metal Effect -->
+    <path d="M 218,220 C 218,280 216,340 216,395" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M 298,210 C 298,270 296,330 296,390" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M 330,178 C 365,170 400,185 418,210" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+    <path d="M 248,340 C 255,390 282,430 322,446" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.65" />
+  </g>
+
+  <!-- TWO LUXURIOUS DEEP RED ROSES WITH GOLD LEAVES & WHITE BLOSSOMS -->
+  <g id="floral-arrangement" filter="url(#royalShadow)">
+    
+    <!-- GOLD LEAVES & SAGE FOLIAGE CLUSTERS -->
+    <!-- Leaf 1 (Left branch) -->
+    <path d="M 120,440 C 100,410 110,370 145,360 C 150,385 142,420 120,440 Z" fill="url(#goldLeafGrad)" stroke="#6B4706" stroke-width="1" />
+    <path d="M 120,440 C 130,405 138,380 145,360" stroke="#FFEAA7" stroke-width="1.5" />
+
+    <!-- Leaf 2 (Downward arching) -->
+    <path d="M 155,475 C 130,495 95,490 85,465 C 105,455 135,460 155,475 Z" fill="url(#sageLeafGrad)" />
+    
+    <!-- Leaf 3 (Right of rose cluster) -->
+    <path d="M 260,510 C 285,530 325,525 340,498 C 320,490 285,495 260,510 Z" fill="url(#goldLeafGrad)" stroke="#6B4706" stroke-width="1" />
+    <path d="M 260,510 C 290,505 315,500 340,498" stroke="#FFEAA7" stroke-width="1.5" />
+
+    <!-- Leaf 4 (Upper accent) -->
+    <path d="M 185,380 C 180,345 205,325 228,335 C 220,358 205,375 185,380 Z" fill="url(#goldLeafGrad)" />
+
+    <!-- DELICATE WHITE JASMINE BLOSSOMS -->
+    <!-- Jasmine 1 -->
+    <g transform="translate(115, 390)">
+      <circle cx="0" cy="0" r="14" fill="#FFFFFF" opacity="0.95" />
+      <path d="M0,-12 C-4,-4 -4,4 0,12 C4,4 4,-4 0,-12 Z" fill="#F8F6F0" />
+      <path d="M-12,0 C-4,-4 4,-4 12,0 C4,4 -4,4 -12,0 Z" fill="#F8F6F0" />
+      <circle cx="0" cy="0" r="4" fill="url(#goldGrad1)" />
+    </g>
+    <!-- Jasmine 2 -->
+    <g transform="translate(265, 470)">
+      <circle cx="0" cy="0" r="11" fill="#FFFFFF" opacity="0.95" />
+      <circle cx="0" cy="0" r="3" fill="url(#goldGrad1)" />
+    </g>
+    <!-- Jasmine 3 (Bud) -->
+    <g transform="translate(95, 435)">
+      <ellipse cx="0" cy="0" rx="6" ry="10" fill="#FFFFFF" transform="rotate(35)" />
+      <path d="M-2,6 C-6,14 -1,18 2,20" stroke="#7C9473" stroke-width="1.5" fill="none" />
+    </g>
+
+    <!-- ROSE 1: PRIMARY MAGNIFICENT DEEP RED ROSE (Bottom-Left ~ Position 180, 455) -->
+    <g id="rose-primary" transform="translate(185, 455)">
+      <!-- Outer Guard Petals -->
+      <path d="M-60,0 C-75,-40 -35,-75 0,-65 C35,-75 75,-40 60,0 C75,40 35,75 0,65 C-35,75 -75,40 -60,0 Z" fill="url(#roseDark)" />
+      
+      <!-- Tier 2 Outer Full Petals -->
+      <path d="M-50,-20 C-65,-5 0,-60 25,-55 C55,-50 65,-10 50,15 C30,45 -10,60 -35,50 C-60,40 -40,-5 -50,-20 Z" fill="url(#roseMid)" />
+      
+      <!-- Overlapping Petals Layer -->
+      <path d="M-40,10 C-55,-25 -15,-50 15,-40 C45,-30 50,5 30,35 C10,55 -30,40 -40,10 Z" fill="url(#roseLight)" />
+      
+      <path d="M-30,-30 C0,-55 40,-35 35,0 C30,30 -5,45 -25,30 C-45,15 -45,-15 -30,-30 Z" fill="url(#roseMid)" />
+
+      <!-- Inner Cup & Swirling Rose Core -->
+      <path d="M-22,-15 C-10,-35 25,-30 22,-5 C20,18 -10,25 -20,12 C-28,0 -26,-5 -22,-15 Z" fill="url(#roseLight)" />
+      <path d="M-14,-10 C-5,-24 16,-20 14,-2 C12,12 -5,16 -12,8 Z" fill="url(#roseDark)" />
+      <path d="M-7,-5 C0,-14 10,-12 8,0 C6,7 -2,9 -6,4 Z" fill="url(#roseLight)" />
+
+      <!-- Velvety Petal Edge Highlights -->
+      <path d="M-42,-22 C-20,-48 18,-45 42,-18" stroke="#FFA2B4" stroke-width="1.8" fill="none" opacity="0.65" stroke-linecap="round" />
+      <path d="M-35,15 C-15,42 20,40 38,10" stroke="#FFA2B4" stroke-width="1.5" fill="none" opacity="0.55" stroke-linecap="round" />
+      <path d="M-18,-8 C0,-22 14,-15 12,2" stroke="#FFD1DC" stroke-width="1.5" fill="none" opacity="0.7" stroke-linecap="round" />
+    </g>
+
+    <!-- ROSE 2: SECOND COMPLEMENTARY BLOOM (Angle ~ Position 245, 415) -->
+    <g id="rose-secondary" transform="translate(245, 415) rotate(18)">
+      <!-- Outer Petals -->
+      <path d="M-42,0 C-52,-28 -25,-52 0,-45 C25,-52 52,-28 42,0 C52,28 25,52 0,45 C-25,52 -52,28 -42,0 Z" fill="url(#roseDark)" />
+      
+      <!-- Mid Petals -->
+      <path d="M-35,-15 C-45,-5 0,-42 18,-38 C38,-35 45,-8 35,10 C20,32 -8,42 -25,35 C-42,28 -28,-5 -35,-15 Z" fill="url(#roseMid)" />
+      
+      <!-- Inner Blossom -->
+      <path d="M-26,6 C-38,-18 -10,-35 10,-28 C30,-22 35,4 20,24 C8,38 -20,28 -26,6 Z" fill="url(#roseLight)" />
+      <path d="M-15,-7 C-3,-24 16,-20 14,-2 C12,12 -4,15 -12,6 Z" fill="url(#roseDark)" />
+      <path d="M-8,-4 C-1,-12 8,-10 6,1 C5,8 -2,9 -6,3 Z" fill="url(#roseLight)" />
+
+      <!-- Edge Sheen -->
+      <path d="M-28,-18 C-12,-35 12,-32 28,-12" stroke="#FFA2B4" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round" />
+      <path d="M-12,-5 C0,-16 10,-10 8,2" stroke="#FFD1DC" stroke-width="1.2" fill="none" opacity="0.65" stroke-linecap="round" />
+    </g>
+
+    <!-- Subtle Golden Pollen & Sparkles near roses -->
+    <circle cx="140" cy="420" r="1.5" fill="#FFEAA7" />
+    <circle cx="160" cy="380" r="2" fill="#FFEAA7" />
+    <circle cx="210" cy="380" r="1.8" fill="#FFEAA7" />
+    <circle cx="270" cy="440" r="2" fill="#FFEAA7" />
+    <circle cx="225" cy="495" r="1.5" fill="#FFEAA7" />
+  </g>
+
+  <!-- Crown / Royal Crest Accent on Top -->
+  <g id="royal-crown" transform="translate(300, 148)" filter="url(#royalShadow)">
+    <path d="M-24,8 L-16,-12 L-4,-2 L0,-18 L4,-2 L16,-12 L24,8 Z" fill="url(#goldGrad1)" stroke="url(#goldGrad2)" stroke-width="1" />
+    <circle cx="-16" cy="-14" r="2.5" fill="url(#goldGrad2)" />
+    <circle cx="0" cy="-21" r="3.5" fill="url(#goldGrad2)" />
+    <circle cx="16" cy="-14" r="2.5" fill="url(#goldGrad2)" />
+    <ellipse cx="0" cy="8" rx="24" ry="3" fill="url(#goldGrad1)" />
+  </g>
+</svg>
