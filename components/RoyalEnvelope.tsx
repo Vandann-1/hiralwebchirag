@@ -4,14 +4,21 @@ import React, { useState } from 'react';
 
 interface RoyalEnvelopeProps {
   onOpen: () => void;
+  onStartAudio?: () => void;
 }
 
-export default function RoyalEnvelope({ onOpen }: RoyalEnvelopeProps) {
+export default function RoyalEnvelope({ onOpen, onStartAudio }: RoyalEnvelopeProps) {
   const [isOpening, setIsOpening] = useState(false);
 
-  const handleOpen = (e: React.MouseEvent) => {
+  const handleOpen = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     if (isOpening) return;
+
+    // Synchronously start audio inside this direct user gesture (essential for Safari / iOS)
+    if (onStartAudio) {
+      onStartAudio();
+    }
+
     setIsOpening(true);
 
     // Give ample time for 4 flaps to unfold outward and card to elevate with gold glow
@@ -86,9 +93,6 @@ export default function RoyalEnvelope({ onOpen }: RoyalEnvelopeProps) {
           />
           <div className="flap-gold-edge-top" />
         </div>
-
-        {/* Diagonal Gold Seam Crease Lines across the 4 Flaps */}
-        <div className={`envelope-crease-lines ${isOpening ? 'creases-hidden' : ''}`} />
 
         {/* Official H&C Center Medallion Royal Seal */}
         <div

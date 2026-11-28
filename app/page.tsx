@@ -44,11 +44,15 @@ export default function RoyalWeddingInvitation() {
     };
   }, []);
 
-  // When H&C Badge on Envelope is tapped
-  const handleOpenEnvelope = () => {
+  // Immediate synchronous audio trigger upon physical tap (mandatory for Safari / Apple devices)
+  const handleStartAudio = useCallback(() => {
     if (audioManagerRef.current) {
       audioManagerRef.current.start();
     }
+  }, []);
+
+  // When H&C Badge on Envelope is tapped (transition after 4-side fold completes)
+  const handleOpenEnvelope = () => {
     setIsEnvelopeOpen(true);
     setCurrentScene(1);
     setProgressKey((prev) => prev + 1);
@@ -267,7 +271,7 @@ export default function RoyalWeddingInvitation() {
 
       {/* ROYAL RED EMBOSSED ENVELOPE (4-SIDE OPENING WITH UX/UI EXPERIENCE) */}
       {!isEnvelopeOpen && (
-        <RoyalEnvelope onOpen={handleOpenEnvelope} />
+        <RoyalEnvelope onOpen={handleOpenEnvelope} onStartAudio={handleStartAudio} />
       )}
 
       {/* INVITATION CARDS STAGE (REVEALED ONCE ENVELOPE OPENS) */}
@@ -415,14 +419,15 @@ export default function RoyalWeddingInvitation() {
         </div>
       )}
 
-      {/* Royal Wedding Soundtrack */}
+      {/* Royal Wedding Soundtrack (with full Apple/Safari compatibility) */}
       <audio
         ref={audioRef}
         loop
         preload="auto"
         playsInline
       >
-        <source src="/assets/audio/wedding-soundtrack.mp3?v=2" type="audio/mpeg" />
+        <source src="/assets/audio/wedding-soundtrack.mp3?v=3" type="audio/mpeg" />
+        <source src="/assets/audio/wedding-soundtrack.m4a?v=3" type="audio/mp4" />
       </audio>
     </main>
   );
