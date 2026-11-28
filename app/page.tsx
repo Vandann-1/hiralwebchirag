@@ -422,7 +422,7 @@ export default function RoyalWeddingInvitation() {
         preload="auto"
         playsInline
       >
-        <source src="/assets/audio/wedding-soundtrack.mp3" type="audio/mpeg" />
+        <source src="/assets/audio/wedding-soundtrack.mp3?v=2" type="audio/mpeg" />
       </audio>
     </main>
   );

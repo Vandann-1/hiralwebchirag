@@ -96,6 +96,11 @@ export default function RoyalEnvelope({ onOpen }: RoyalEnvelopeProps) {
           onClick={handleOpen}
           title="Tap Royal Seal to Open"
         >
+          {/* Concentric Ring Ring Ring Pulsating Waves on Proper Center */}
+          <div className="badge-pulse-ring ring-1" />
+          <div className="badge-pulse-ring ring-2" />
+          <div className="badge-pulse-ring ring-3" />
+
           <img
             src="/assets/images/envelope-badge.png"
             alt="H&C Royal Monogram Badge"
