@@ -109,7 +109,7 @@ html, body {
 }
 
 /* ==========================================================================
-   ROYAL ENVELOPE (ENVALOPMENT) INTERACTIVE SCREEN — FULL SCREEN
+   ROYAL ENVELOPE (4-SIDE OPENING WITH LUXURY UX/UI EXPERIENCE)
    ========================================================================== */
 .royal-envelope-screen {
   position: absolute;
@@ -131,21 +131,36 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  perspective: 1400px;
+  perspective: 1500px;
   overflow: hidden;
   cursor: pointer;
 }
 
-/* Back Wall / Inside Lining of the Envelope */
+/* Inside Velvet Lining of the Envelope */
 .envelope-inside-lining {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, #59040C 0%, #350106 70%, #180002 100%);
+  background: radial-gradient(circle at center, #6b050f 0%, #3e0108 65%, #180003 100%);
   border: 2px solid rgba(212, 175, 55, 0.65);
   z-index: 1;
 }
 
-/* The Royal Invitation Card Inside that Slides Up */
+.envelope-lining-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.8) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.envelope-lining-gold-border {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  pointer-events: none;
+}
+
+/* The Royal Invitation Card Inside that Reveals and Elevates */
 .envelope-sliding-card {
   position: absolute;
   top: 5%;
@@ -155,16 +170,24 @@ html, body {
   border-radius: 12px;
   overflow: hidden;
   z-index: 2;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-  transition: transform 1.25s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 1.2s ease, opacity 0.8s ease;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8);
+  transition: transform 1.35s cubic-bezier(0.2, 0.8, 0.25, 1) 0.3s, box-shadow 1.2s ease 0.3s, opacity 0.8s ease;
   transform: translateY(0) scale(0.96);
   opacity: 0.95;
 }
 
 .envelope-sliding-card.card-slides-up {
-  transform: translateY(-46%) scale(1.02);
+  transform: translateY(-8%) scale(1.03);
   opacity: 1;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(212, 175, 55, 0.65);
+}
+
+.card-ambient-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.4);
+  pointer-events: none;
 }
 
 .sliding-card-img {
@@ -176,13 +199,14 @@ html, body {
   border: 1.5px solid var(--color-gold);
 }
 
-/* Lower Envelope Body Pocket */
-.envelope-lower-body {
+/* 4-SIDE FLAP BASE */
+.envelope-flap {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 50%);
-  z-index: 3;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .envelope-img {
@@ -193,21 +217,67 @@ html, body {
   pointer-events: none;
 }
 
-/* Top Triangular Flap that Folds Open Upwards */
-.envelope-top-flap {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
-  transform-origin: top center;
-  transition: transform 1.15s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 5;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+/* 1. LEFT FLAP (Folds out to left) */
+.envelope-flap-left {
+  clip-path: polygon(0 0, 0 100%, 50% 50%);
+  transform-origin: left center;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.16s;
+  z-index: 4;
+  filter: drop-shadow(4px 0 12px rgba(0, 0, 0, 0.55));
+}
+.envelope-flap-left.flap-open {
+  transform: rotateY(-175deg);
 }
 
-.envelope-top-flap.flap-folded-open {
+/* 2. RIGHT FLAP (Folds out to right) */
+.envelope-flap-right {
+  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+  transform-origin: right center;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.16s;
+  z-index: 4;
+  filter: drop-shadow(-4px 0 12px rgba(0, 0, 0, 0.55));
+}
+.envelope-flap-right.flap-open {
+  transform: rotateY(175deg);
+}
+
+/* 3. BOTTOM FLAP (Folds down) */
+.envelope-flap-bottom {
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  transform-origin: bottom center;
+  transition: transform 1.25s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+  z-index: 5;
+  filter: drop-shadow(0 -4px 14px rgba(0, 0, 0, 0.6));
+}
+.envelope-flap-bottom.flap-open {
+  transform: rotateX(-175deg);
+}
+
+/* 4. TOP FLAP (Folds up) */
+.envelope-flap-top {
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  transform-origin: top center;
+  transition: transform 1.25s cubic-bezier(0.4, 0, 0.2, 1) 0.04s;
+  z-index: 6;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.65));
+}
+.envelope-flap-top.flap-open {
   transform: rotateX(175deg);
+}
+
+/* Gold Seam Crease Lines between the 4 Flaps */
+.envelope-crease-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+  background: 
+    linear-gradient(to top right, transparent calc(50% - 1.5px), rgba(212, 175, 55, 0.45) 50%, transparent calc(50% + 1.5px)),
+    linear-gradient(to bottom right, transparent calc(50% - 1.5px), rgba(212, 175, 55, 0.45) 50%, transparent calc(50% + 1.5px));
+  transition: opacity 0.4s ease;
+}
+.envelope-crease-lines.creases-hidden {
+  opacity: 0;
 }
 
 /* Official H&C Center Medallion Badge — DEAD CENTER */
@@ -256,6 +326,20 @@ html, body {
   pointer-events: none;
 }
 
+.badge-shimmer-ring {
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 215, 0, 0.5);
+  animation: rotateRing 12s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @keyframes badgePulse {
   0%, 100% {
     transform: scale(0.97);
@@ -268,7 +352,7 @@ html, body {
 }
 
 .envelope-badge-trigger.badge-activated {
-  transform: translate(-50%, -125%) scale(1.15);
+  transform: translate(-50%, -125%) scale(1.2);
   opacity: 0;
   pointer-events: none;
 }
@@ -308,7 +392,7 @@ html, body {
 }
 
 /* ==========================================================================
-   CLEAN INVITATION CARDS STAGE (NO CLUNKY AUTO/SCENE BARS)
+   CLEAN INVITATION CARDS STAGE & STORY PROGRESS BARS
    ========================================================================== */
 .cards-stage-container {
   position: absolute;
@@ -321,6 +405,67 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Luxury Story-Style Progress Bars (Top of Cards Stage) */
+.story-progress-header {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 64px; /* leaves room for minimal music button */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 40;
+  pointer-events: auto;
+}
+
+.story-bar-segment {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, height 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.story-bar-segment:hover {
+  height: 5px;
+  transform: translateY(-0.5px);
+}
+
+.story-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #E5C378, #FFE6A0, #D4AF37);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+  width: 0%;
+}
+
+.story-bar-fill.fill-completed {
+  width: 100% !important;
+}
+
+.story-bar-fill.fill-empty {
+  width: 0% !important;
+}
+
+.story-bar-fill.fill-active {
+  animation-name: fillStoryBar;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fillStoryBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* Minimal Floating Corner Music Toggle */

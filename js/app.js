@@ -11,7 +11,8 @@
   let isEnvelopeOpen = false;
   let isTransitioning = false;
   let autoTimer = null;
-  const AUTO_ADVANCE_DELAY = 4000; // 4 seconds auto per scene
+  const AUTO_ADVANCE_DELAY = 11000; // 11 seconds (10-12s duration for reading ceremony details)
+  let isPaused = false;
 
   let touchStartX = 0;
   let touchStartY = 0;
@@ -20,12 +21,17 @@
   const appContainer = document.getElementById('invitation-app');
   const envelopeScreen = document.getElementById('royal-envelope-screen');
   const envelopeTopFlap = document.getElementById('envelope-top-flap');
+  const envelopeBottomFlap = document.getElementById('envelope-flap-bottom');
+  const envelopeLeftFlap = document.getElementById('envelope-flap-left');
+  const envelopeRightFlap = document.getElementById('envelope-flap-right');
+  const envelopeCreaseLines = document.getElementById('envelope-crease-lines');
   const envelopeSlidingCard = document.getElementById('envelope-sliding-card');
   const envelopeBadgeTrigger = document.getElementById('envelope-badge-trigger');
   const envelopeTapPill = document.getElementById('envelope-tap-pill');
 
   const cardsStage = document.getElementById('cards-stage-container');
   const cardSlides = document.querySelectorAll('.invitation-card-slide');
+  const storyProgressHeader = document.getElementById('story-progress-header');
   const btnPrevCard = document.getElementById('btn-prev-card');
   const btnNextCard = document.getElementById('btn-next-card');
 
@@ -151,11 +157,15 @@
 
   const audioManager = new WeddingAudioManager();
 
-  // OPEN ENVELOPE HANDLER
+  // OPEN ENVELOPE HANDLER (4-SIDE UNROLLING)
   function handleOpenEnvelope() {
     if (isEnvelopeOpen) return;
     envelopeScreen.classList.add('is-opening');
-    if (envelopeTopFlap) envelopeTopFlap.classList.add('flap-folded-open');
+    if (envelopeTopFlap) envelopeTopFlap.classList.add('flap-open');
+    if (envelopeBottomFlap) envelopeBottomFlap.classList.add('flap-open');
+    if (envelopeLeftFlap) envelopeLeftFlap.classList.add('flap-open');
+    if (envelopeRightFlap) envelopeRightFlap.classList.add('flap-open');
+    if (envelopeCreaseLines) envelopeCreaseLines.classList.add('creases-hidden');
     if (envelopeSlidingCard) envelopeSlidingCard.classList.add('card-slides-up');
     if (envelopeBadgeTrigger) envelopeBadgeTrigger.classList.add('badge-activated');
     if (envelopeTapPill) envelopeTapPill.style.display = 'none';
@@ -167,10 +177,10 @@
       envelopeScreen.style.display = 'none';
       if (cardsStage) cardsStage.style.display = 'flex';
       goToScene(1);
-    }, 1400);
+    }, 1800);
   }
 
-  // REPLAY INVITATION (RETURNS TO ENVELOPE)
+  // REPLAY INVITATION (RETURNS TO ENVELOPE WITH ALL 4 FLAPS CLOSED)
   function handleReplayInvitation() {
     if (autoTimer) clearTimeout(autoTimer);
     isEnvelopeOpen = false;
@@ -180,20 +190,48 @@
       envelopeScreen.style.display = 'flex';
       envelopeScreen.classList.remove('is-opening');
     }
-    if (envelopeTopFlap) envelopeTopFlap.classList.remove('flap-folded-open');
+    if (envelopeTopFlap) envelopeTopFlap.classList.remove('flap-open');
+    if (envelopeBottomFlap) envelopeBottomFlap.classList.remove('flap-open');
+    if (envelopeLeftFlap) envelopeLeftFlap.classList.remove('flap-open');
+    if (envelopeRightFlap) envelopeRightFlap.classList.remove('flap-open');
+    if (envelopeCreaseLines) envelopeCreaseLines.classList.remove('creases-hidden');
     if (envelopeSlidingCard) envelopeSlidingCard.classList.remove('card-slides-up');
     if (envelopeBadgeTrigger) envelopeBadgeTrigger.classList.remove('badge-activated');
     if (envelopeTapPill) envelopeTapPill.style.display = 'flex';
     if (fireworksActive) stopFireworks();
   }
 
-  // 4 SECONDS AUTOMATIC SCENE PROGRESSION ("4, 4 auto all those")
+  // 10-12 SECONDS AUTOMATIC SCENE PROGRESSION (11 seconds)
   function resetAutoTimer() {
     if (autoTimer) clearTimeout(autoTimer);
-    if (!isEnvelopeOpen || currentScene >= TOTAL_SCENES) return;
+    if (!isEnvelopeOpen || isPaused || currentScene >= TOTAL_SCENES) return;
     autoTimer = setTimeout(() => {
       handleNext();
     }, AUTO_ADVANCE_DELAY);
+  }
+
+  // UPDATE LUXURY STORY PROGRESS BARS
+  function updateStoryProgress() {
+    const segments = document.querySelectorAll('.story-bar-segment');
+    segments.forEach((seg, idx) => {
+      const segScene = idx + 1;
+      const fill = seg.querySelector('.story-bar-fill');
+      if (!fill) return;
+
+      fill.classList.remove('fill-completed', 'fill-active', 'fill-empty');
+      // Reset animation
+      fill.style.animation = 'none';
+      fill.offsetHeight; // trigger reflow
+
+      if (segScene < currentScene) {
+        fill.classList.add('fill-completed');
+      } else if (segScene === currentScene) {
+        fill.classList.add('fill-active');
+        fill.style.animation = `fillStoryBar ${AUTO_ADVANCE_DELAY}ms linear forwards`;
+      } else {
+        fill.classList.add('fill-empty');
+      }
+    });
   }
 
   // CARD NAVIGATION
@@ -215,6 +253,9 @@
         slide.classList.add('slide-future');
       }
     });
+
+    // Update Story Progress Bars
+    updateStoryProgress();
 
     // Update Arrows visibility
     if (btnPrevCard) btnPrevCard.style.display = currentScene > 1 ? 'flex' : 'none';
@@ -644,12 +685,27 @@
     if (cardsStage) {
       cardsStage.addEventListener('click', handleScreenTap);
 
+      // Story Progress Segments Clickable
+      const storySegments = document.querySelectorAll('.story-bar-segment');
+      storySegments.forEach((seg, idx) => {
+        seg.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToScene(idx + 1);
+        });
+      });
+
+      // Pause on hold, resume on release
+      cardsStage.addEventListener('mousedown', () => { isPaused = true; });
+      cardsStage.addEventListener('mouseup', () => { isPaused = false; });
+
       cardsStage.addEventListener('touchstart', (e) => {
+        isPaused = true;
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
       }, { passive: true });
 
       cardsStage.addEventListener('touchend', (e) => {
+        isPaused = false;
         const touchEndX = e.changedTouches[0].screenX;
         const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchEndX - touchStartX;

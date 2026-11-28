@@ -28,43 +28,72 @@
     <!-- Interactive Particle Overlay (Gold Dust & Sparkles) -->
     <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-    <!-- ROYAL RED EMBOSSED ENVELOPE (PROPER OPENING SCREEN) -->
-    <div id="royal-envelope-screen" class="royal-envelope-screen" role="button" tabindex="0" aria-label="Tap H&amp;C Badge to Open Envelope">
+    <!-- ROYAL RED EMBOSSED ENVELOPE (4-SIDE OPENING WITH LUXURY UX/UI EXPERIENCE) -->
+    <div id="royal-envelope-screen" class="royal-envelope-screen" role="button" tabindex="0" aria-label="Tap Royal Seal to Open Envelope">
       <div class="envelope-3d-wrapper" id="envelope-3d-wrapper">
-        <!-- Back Wall / Inside Lining of the Envelope -->
-        <div class="envelope-inside-lining"></div>
+        <!-- Back Wall / Inside Velvet Lining of the Envelope -->
+        <div class="envelope-inside-lining">
+          <div class="envelope-lining-pattern"></div>
+          <div class="envelope-lining-gold-border"></div>
+        </div>
 
-        <!-- The Royal Invitation Card Inside that Slides Up -->
+        <!-- The Royal Invitation Card Inside that Reveals and Elevates -->
         <div class="envelope-sliding-card" id="envelope-sliding-card">
           <img src="assets/images/scene-1-ganesh.jpg" alt="Ganesh Stapan Invitation" class="sliding-card-img">
+          <div class="card-ambient-glow"></div>
         </div>
 
-        <!-- Lower Envelope Body Pocket -->
-        <div class="envelope-lower-body">
-          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Royal Red Envelope" class="envelope-img">
+        <!-- 4-SIDE ROYAL FLAPS (All 4 unfold outward in 3D) -->
+        <!-- 1. Left Flap -->
+        <div class="envelope-flap envelope-flap-left" id="envelope-flap-left">
+          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Royal Envelope Left Flap" class="envelope-img">
         </div>
 
-        <!-- Top Triangular Flap that Folds Open Upwards -->
-        <div class="envelope-top-flap" id="envelope-top-flap">
-          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Envelope Flap" class="envelope-img">
+        <!-- 2. Right Flap -->
+        <div class="envelope-flap envelope-flap-right" id="envelope-flap-right">
+          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Royal Envelope Right Flap" class="envelope-img">
         </div>
+
+        <!-- 3. Bottom Flap -->
+        <div class="envelope-flap envelope-flap-bottom" id="envelope-flap-bottom">
+          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Royal Envelope Bottom Flap" class="envelope-img">
+        </div>
+
+        <!-- 4. Top Flap -->
+        <div class="envelope-flap envelope-flap-top" id="envelope-flap-top">
+          <img src="assets/images/royal-envelope-clean-base.jpg" alt="Royal Envelope Top Flap" class="envelope-img">
+        </div>
+
+        <!-- Gold Seam Crease Lines between the 4 Flaps -->
+        <div class="envelope-crease-lines" id="envelope-crease-lines"></div>
 
         <!-- Official H&C Center Medallion Badge -->
-        <div class="envelope-badge-trigger" id="envelope-badge-trigger" title="Tap H&amp;C Badge to Open">
+        <div class="envelope-badge-trigger" id="envelope-badge-trigger" title="Tap Royal Seal to Open">
           <img src="assets/images/envelope-badge.png" alt="H&amp;C Royal Monogram Badge" class="envelope-center-badge-img">
           <div class="badge-gold-aura"></div>
+          <div class="badge-shimmer-ring"></div>
         </div>
 
         <!-- Tap Prompt Pill -->
         <div class="envelope-tap-pill" id="envelope-tap-pill">
-          <span class="tap-icon">👆</span>
-          <span>Tap H&amp;C Badge to Open</span>
+          <span class="tap-icon">✨</span>
+          <span>Tap Royal Seal to Open</span>
         </div>
       </div>
     </div>
 
-    <!-- CLEAN INVITATION CARDS STAGE (SHOWN AFTER ENVELOPE OPENS) -->
+    <!-- INVITATION CARDS STAGE & STORY PROGRESS BARS -->
     <div class="cards-stage-container" id="cards-stage-container" style="display: none;">
+
+      <!-- Luxury Story-Style Progress Bars (11s duration per ceremony) -->
+      <div class="story-progress-header" id="story-progress-header" aria-label="Ceremony Story Progress">
+        <div class="story-bar-segment" data-target="1" title="Card 1: Ganesh Stapan"><div class="story-bar-fill fill-active" style="animation-duration: 11000ms;"></div></div>
+        <div class="story-bar-segment" data-target="2" title="Card 2: Family Invitation"><div class="story-bar-fill fill-empty"></div></div>
+        <div class="story-bar-segment" data-target="3" title="Card 3: Haldi Ceremony"><div class="story-bar-fill fill-empty"></div></div>
+        <div class="story-bar-segment" data-target="4" title="Card 4: Mameru"><div class="story-bar-fill fill-empty"></div></div>
+        <div class="story-bar-segment" data-target="5" title="Card 5: H&C Palace"><div class="story-bar-fill fill-empty"></div></div>
+        <div class="story-bar-segment" data-target="6" title="Card 6: Hast Milap Lagan"><div class="story-bar-fill fill-empty"></div></div>
+      </div>
 
       <!-- Minimal Floating Corner Music Toggle -->
       <button class="minimal-music-btn" id="minimal-music-btn" aria-label="Toggle Wedding Music" title="Toggle Wedding Music">
@@ -142,7 +171,7 @@
 
     <!-- Native Audio Element -->
     <audio id="wedding-audio" loop preload="auto" playsinline>
-      <source src="assets/audio/wedding-soundtrack.m4a" type="audio/mp4">
+      <source src="assets/audio/wedding-soundtrack.mp3" type="audio/mpeg">
     </audio>
 
   </main>

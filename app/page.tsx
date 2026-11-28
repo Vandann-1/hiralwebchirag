@@ -7,6 +7,7 @@ import FireworksCanvas from '@/components/FireworksCanvas';
 import { WeddingAudioManager } from '@/lib/audio';
 
 const TOTAL_SCENES = 6;
+const SLIDE_DURATION_MS = 11000; // 11 seconds (10-12s duration for reading ceremony details)
 
 const SCENES_DATA = [
   { id: 1, title: 'Ganesh Stapan', image: '/assets/images/scene-1-ganesh.jpg' },
@@ -22,6 +23,8 @@ export default function RoyalWeddingInvitation() {
   const [currentScene, setCurrentScene] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progressKey, setProgressKey] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioManagerRef = useRef<WeddingAudioManager | null>(null);
@@ -48,12 +51,14 @@ export default function RoyalWeddingInvitation() {
     }
     setIsEnvelopeOpen(true);
     setCurrentScene(1);
+    setProgressKey((prev) => prev + 1);
   };
 
-  // Replay from beginning (returns to Envelope)
+  // Replay from beginning (returns to Envelope with all 4 flaps closed)
   const handleReplay = () => {
     setIsEnvelopeOpen(false);
     setCurrentScene(1);
+    setProgressKey(0);
   };
 
   // Direct card navigation
@@ -64,24 +69,25 @@ export default function RoyalWeddingInvitation() {
 
     setIsTransitioning(true);
     setCurrentScene(targetIndex);
+    setProgressKey((prev) => prev + 1);
 
     setTimeout(() => {
       setIsTransitioning(false);
     }, 600);
   }, [currentScene, isTransitioning]);
 
-  // 4 Seconds Automatic Scene Progression ("4, 4 auto all those")
+  // 10-12 Seconds Automatic Scene Progression (11s)
   useEffect(() => {
-    if (!isEnvelopeOpen) return;
+    if (!isEnvelopeOpen || isPaused) return;
     // When on Scene 6 finale, stay on finale with fireworks
     if (currentScene >= TOTAL_SCENES) return;
 
     const timer = setTimeout(() => {
       goToScene(currentScene + 1);
-    }, 4000); // 4 seconds per scene
+    }, SLIDE_DURATION_MS);
 
     return () => clearTimeout(timer);
-  }, [isEnvelopeOpen, currentScene, goToScene]);
+  }, [isEnvelopeOpen, currentScene, isPaused, progressKey, goToScene]);
 
   const handlePrev = () => {
     if (currentScene > 1) {
@@ -102,12 +108,16 @@ export default function RoyalWeddingInvitation() {
     }
   };
 
-  // Tap navigation: Left half = Prev, Right half = Next
+  // Tap navigation: Left 35% = Prev, Right 35% = Next, Center = Hold to pause
   const handleScreenTap = (e: React.MouseEvent) => {
     if (!isEnvelopeOpen) return;
-    // Don't navigate if clicking action buttons or music toggle
     const target = e.target as HTMLElement;
-    if (target.closest('.interactive-action') || target.closest('.minimal-music-btn')) {
+    if (
+      target.closest('.interactive-action') ||
+      target.closest('.minimal-music-btn') ||
+      target.closest('.story-progress-header') ||
+      target.closest('.minimal-nav-arrow')
+    ) {
       return;
     }
 
@@ -115,9 +125,9 @@ export default function RoyalWeddingInvitation() {
     const rect = currentTarget.getBoundingClientRect();
     const clickX = clientX - rect.left;
 
-    if (clickX < rect.width * 0.4) {
+    if (clickX < rect.width * 0.35) {
       handlePrev();
-    } else {
+    } else if (clickX > rect.width * 0.65) {
       handleNext();
     }
   };
@@ -143,13 +153,15 @@ export default function RoyalWeddingInvitation() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isEnvelopeOpen, currentScene, goToScene]);
 
-  // Touch Swipe for Mobile
+  // Touch Swipe for Mobile with Pause on Touch-and-Hold
   const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
     touchStartXRef.current = e.changedTouches[0].screenX;
     touchStartYRef.current = e.changedTouches[0].screenY;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsPaused(false);
     const touchEndX = e.changedTouches[0].screenX;
     const touchEndY = e.changedTouches[0].screenY;
     const diffX = touchEndX - touchStartXRef.current;
@@ -247,18 +259,56 @@ export default function RoyalWeddingInvitation() {
       onClick={handleScreenTap}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={() => setIsPaused(true)}
+      onMouseUp={() => setIsPaused(false)}
     >
       {/* Floating Gold Dust Particles */}
       <ParticleCanvas currentScene={currentScene} />
 
-      {/* ROYAL RED EMBOSSED ENVELOPE (PROPER OPENING) */}
+      {/* ROYAL RED EMBOSSED ENVELOPE (4-SIDE OPENING WITH UX/UI EXPERIENCE) */}
       {!isEnvelopeOpen && (
         <RoyalEnvelope onOpen={handleOpenEnvelope} />
       )}
 
-      {/* CLEAN INVITATION CARDS (SHOWN ONCE ENVELOPE OPENS) */}
+      {/* INVITATION CARDS STAGE (REVEALED ONCE ENVELOPE OPENS) */}
       {isEnvelopeOpen && (
         <div className="cards-stage-container">
+
+          {/* Luxury Story-Style Progress Bars (11s each, 10-12s proper duration) */}
+          <div className="story-progress-header" aria-label="Ceremony Cards Story Progress">
+            {SCENES_DATA.map((scene) => {
+              const isPast = scene.id < currentScene;
+              const isCurrent = scene.id === currentScene;
+              return (
+                <div
+                  key={scene.id}
+                  className={`story-bar-segment ${isCurrent ? 'active-segment' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToScene(scene.id);
+                  }}
+                  title={`Card ${scene.id}: ${scene.title}`}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    key={`${scene.id}-${progressKey}`}
+                    className={`story-bar-fill ${
+                      isPast ? 'fill-completed' : isCurrent ? 'fill-active' : 'fill-empty'
+                    }`}
+                    style={
+                      isCurrent
+                        ? {
+                            animationDuration: `${SLIDE_DURATION_MS}ms`,
+                            animationPlayState: isPaused ? 'paused' : 'running',
+                          }
+                        : undefined
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
 
           {/* Minimal Floating Corner Music Toggle */}
           <button
@@ -372,7 +422,7 @@ export default function RoyalWeddingInvitation() {
         preload="auto"
         playsInline
       >
-        <source src="/assets/audio/wedding-soundtrack.m4a" type="audio/mp4" />
+        <source src="/assets/audio/wedding-soundtrack.mp3" type="audio/mpeg" />
       </audio>
     </main>
   );
