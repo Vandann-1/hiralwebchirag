@@ -94,7 +94,6 @@ export default function RoyalEnvelope({ onOpen }: RoyalEnvelopeProps) {
         <div
           className={`envelope-badge-trigger ${isOpening ? 'badge-activated' : ''}`}
           onClick={handleOpen}
-          title="Tap Royal Seal to Open"
         >
           {/* Concentric Ring Ring Ring Pulsating Waves on Proper Center */}
           <div className="badge-pulse-ring ring-1" />
@@ -107,7 +106,6 @@ export default function RoyalEnvelope({ onOpen }: RoyalEnvelopeProps) {
             className="envelope-center-badge-img"
           />
           <div className="badge-gold-aura" />
-          <div className="badge-shimmer-ring" />
         </div>
 
         {/* Elegant Tap Instruction Pill */}
